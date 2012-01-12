@@ -1,0 +1,192 @@
+<html>
+<head>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#set").click(function(){
+		version = $("#v").val().split(".");
+		v2 = version[0]+"."+version[1];
+		v7 = v2+"."+version[2]+"."+version[3];
+		$(".v2").text(v2);
+		$(".v7").text(v7);
+		
+	});
+});
+</script>
+<style type="text/css">
+	pre { font: 100% courier,monospace; border: 1px solid #ccc; overflow: auto; overflow-x: scroll; width: 90%; padding: 0 1em 1em 1em; margin: 1em auto 2em auto; background: #fff7f0; color: #000 }
+	.liner{
+		-webkit-border-radius:10px;
+		-moz-border-radius:10px;
+		border-radius:10px;
+		
+		font-size: 1.1em;
+		background-color:#2C2C36;
+		color:wheat;
+		overflow: auto;
+		max-height: 770px;
+		box-shadow: 1px 0px 8px 1px #2B2B2B inset;
+		background-image: -webkit-gradient(
+			linear,
+			left top,
+			left bottom,
+			color-stop(0, #646262),
+			color-stop(0.5, #484848),
+			color-stop(0.5, #3D3D3D),
+			color-stop(1, #4C4C4C)
+			);
+		background-image: -moz-linear-gradient(
+			center top,
+			#646262 0%%,
+			#484848 50%%,
+			#3D3D3D 50%%,
+			#4C4C4C 100%%
+			);
+		padding-left: 15px;
+	}
+	textarea{
+		background-color:transparent;
+	}
+	.inst{
+	font-weight:bold;
+	}
+	
+</style>
+<title>PCA UPGRADE</title>
+</head>
+<body>
+<h1>PCA Upgrade Helper</h1>
+<label name="version">Version:</label><input id="v" type="text"/><button id="set">set</button>
+<p class="inst">1.) Create a directory for the upgrade files to be stored, go to the directory.</p>
+
+<div class="liner">
+	<p>
+		<code class="code">
+		mkdir -p /data/pca_upgrade/<span class="v2">4.6</span><br>
+		cd /data/pca_upgrade/<span class="v2">4.6</span><br>
+		&nbsp;
+		</code>
+	</p>
+</div>
+
+<p class="inst">
+	2.) Pull down the necessary files from cloud front.
+</p>
+
+<div class="liner">
+	<p>
+		<code class="code">
+			wget http://d2dmpxw71t0eze.cloudfront.net/<span class="v2">4.6</span>/PathView-private-upgrade-<span class="v7">4.6.0.4644</span>.tar.gz<br>
+
+			wget http://d2dmpxw71t0eze.cloudfront.net/<span class="v2">4.6</span>/pvc-webui_<span class="v7">4.6.0.4644</span>-1_all.deb<br>
+
+			wget http://d2dmpxw71t0eze.cloudfront.net/<span class="v2">4.6</span>/pvc-appserver_<span class="v7">4.6.0.4644</span>-1_all.deb<br>&nbsp;
+		</code>
+	</p>
+</div>
+
+<p class="inst">
+3.) Extract the update package.
+</p>
+
+<div class="liner">
+	<p>
+		<code class="code">
+		tar -zxvf PathView-private-upgrade-<span class="v7">4.6.0.4644</span>.tar.gz<br>&nbsp;
+		</code>
+	</p>
+</div>
+
+<p class="inst">
+4.) Check the db_backup.log to ensure a recent db backup has been made.
+<p>
+
+<div class="liner">
+	<p>
+		<code class="code">
+		cat /backup/databases/db001/log/db_backup.log<br>&nbsp;
+		</code>
+	</p>
+</div>
+
+<p class="inst">
+5.) f the backup is old, back up the db.
+</p>
+
+<div class="liner">
+	<p>
+		<code class="code">
+		/opt/scripts/pg_weekly_backup.sh db001 /data /backup >> /backup/databases/db001/log/db_backup.log<br>
+		cat /backup/databases/db001/log/db_backup.log<br>&nbsp;
+		</code>
+	</p>
+</div>
+
+<p class="inst">
+6.) Run the upgrade script.
+</p>
+
+<div class="liner">
+	<p>
+		<code class="code">
+			./upgrade.sh<br>&nbsp;
+		</code>
+	</p>
+</div>
+
+<p class="inst">
+7.) Start the NIS and Tail the nis log to ensure it starts up properly.
+</p>
+
+<div class="liner">
+	<p>
+		<code class="code">
+		service nis start<br>
+		tail -f  /data/pathview/logs/nis/nis_server.log | egrep --color "ERROR|$"<br>&nbsp;
+		</code>
+	</p>
+</div>
+	
+<p class="inst">
+8.) Start the WebUI and check to ensure that all the java processes are running. (5 -- FlowCollector, FlowAnalysisServer,  PacketCaptureServer, jboss.Main, catalina )
+</p>
+
+<div class="liner">
+	<p>
+		<code class="code">
+		service webui start<br>
+		ps -ef | grep java | egrep --color "catalina|jboss.Main|FlowCollector|FlowAnalysisServer|PacketCaptureServer|$"<br>&nbsp;
+		</code>
+	</p>
+</div>
+
+<p class="inst">
+9.) Start the tunnel server and Check that required processes are running.
+	(5 -- aux-launcher, ssl-tunnel -c, ezio, Analysis.exe, run.sh)
+</p>
+
+<div class="liner">
+	<p>
+		<code class="code">
+		service tun-server start<br>
+		ps -ef | grep pathview | grep -v java | egrep --color "aux-launcher|ssl-tunnel -d -c|ezio|Analysis.exe|run.sh|$"<br>&nbsp;
+		</code>
+	</p>
+</div>
+
+<p class="inst">
+10.) Check that all packages upgraded successfully.
+</p>
+
+<div class="liner">
+	<p>
+		<code class="code">
+		dpkg -l | grep pvc<br>&nbsp;
+		</code>
+	</p>
+</div>
+ 
+
+
+</body>
+</html>
