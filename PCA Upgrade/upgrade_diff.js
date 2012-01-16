@@ -8,7 +8,7 @@ var date = day+"/"+month+"/"+year;
 
 style_controls = "'  position:absolute; top:0px; right:0px;'";
 style_output = "";
-controls = "<div id='controls' style="+style_controls+">Comparing:<span id='label'></span><input id='date' type='text' value='"+date+"' /><button id='start'>start</button><button id='compare'>compare</button></div>";
+controls = "<div id='controls' style="+style_controls+">Comparing:<span id='label'></span><input id='date' type='text' value='"+date+"' /><button id='start'>start</button><button id='compare'>compare</button><button id='report'>report </button></div>";
 output = "<table class='output'><tr><td>Not Back Online</td><td>New Online</td></tr></table>";
 $("#DataTableNoBorder").addClass("output");
 $('#manageSequencers-content').css("position","relative").append(controls);
