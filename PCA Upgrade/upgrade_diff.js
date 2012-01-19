@@ -11,7 +11,7 @@ style_output = "  ' '  ";
 style_report = "  'position:static; height:100%; width:100%; background-color:white; '  ";
 controls = "<div id='controls' style="+style_controls+">Comparing:<span id='label'></span><input id='date' type='text' value='"+date+"' /><button id='start'>start</button><button id='compare'>compare</button><button id='report'>report </button></div>";
 output = "<table class='output'><tr><td>Not Back Online</td><td>New Online</td></tr></table>";
-report = "<div id='report_table' style="+style_controls+"></div>";
+report = "<div id='report_table' style="+style_report+"></div>";
 $("#DataTableNoBorder").addClass("output");
 $('#manageSequencers-content').css("position","relative").append(controls);
 
