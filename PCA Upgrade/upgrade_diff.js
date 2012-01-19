@@ -8,12 +8,13 @@ var date = day+"/"+month+"/"+year;
 
 style_controls = "'  position:absolute; top:0px; right:0px;'";
 style_output = "  ' '  ";
-style_report = "  'position:static; height:100%; width:100%; background-color:white; '  ";
+style_report = "  'position:static; height:100%; width:100%; background-color:white; z-index:999; display:none;'  ";
 controls = "<div id='controls' style="+style_controls+">Comparing:<span id='label'></span><input id='date' type='text' value='"+date+"' /><button id='start'>start</button><button id='compare'>compare</button><button id='report'>report </button></div>";
 output = "<table class='output'><tr><td>Not Back Online</td><td>New Online</td></tr></table>";
 report = "<div id='report_table' style="+style_report+"></div>";
 $("#DataTableNoBorder").addClass("output");
 $('#manageSequencers-content').css("position","relative").append(controls);
+$("body").append(report);
 
 
 	online2 = [];
@@ -81,7 +82,7 @@ $('#manageSequencers-content').css("position","relative").append(controls);
 	});
 	
 	$("#report").click(function(){
-		$("body").append(report);
+		$("#report_table").css("display","");
 	});
 	 
 
