@@ -14,7 +14,7 @@ output = "<table class='output'><tr><td>Not Back Online</td><td>New Online</td><
 report = "<div id='report_table' style="+style_report+"></div>";
 $("#DataTableNoBorder").addClass("output");
 $('#manageSequencers-content').css("position","relative").append(controls);
-$("body").append(report);
+$("body").prepend(report);
 
 
 	online2 = [];
