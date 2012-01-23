@@ -11,37 +11,38 @@ style_output = "  ' '  ";
 style_report = "  'position:fixed; height:100%; width:100%; background-color:white; z-index:999; display:none;'  ";
 controls = "<div id='controls' style="+style_controls+">Comparing:<span id='label'></span><input id='date' type='text' value='"+date+"' /><button id='start'>start</button><button id='compare'>compare</button><button id='report'>report </button></div>";
 output = "<table class='output'><tr><td>Not Back Online</td><td>New Online</td></tr></table>";
-report = "<div id='report_table' style="+style_report+"><span id='close_report'>close</span></div>";
+report = "<div id='report_table' style="+style_report+"><h3 id='close_report'>close</h3><table id='report_data'></table></div>";
 $("#DataTableNoBorder").addClass("output");
 $('#manageSequencers-content').css("position","relative").append(controls);
 $("body").prepend(report);
 
-
-	online2 = [];
-		offline2 = [];
-	online = [];
-		offline = [];
+	var online = [];
+	var offline = [];
+	var online2 = [];
+	var offline2 = [];
+	
 	$("#start").click(function(){
 		
 		$("[id^=seqRow]").each(function(){
 			if ($(this).attr("data-seqstatus")=="Connection Established"){
 				online.push($(this).attr("data-seqname"));
 			}else{
-				offline += $(this).attr("data-seqname");
+				offline.push($(this).attr("data-seqname"));
 			}
 		});
 		localStorage.setItem($("#date").val(), online);
+		localStorage.setItem($("#date").val()+"date", new Date());
 	});
 	
 	$("#compare").click(function(){
-	online2 = [];
+		online2 = [];
 		offline2 = [];
 		
 		$("[id^=seqRow]").each(function(){
 			if ($(this).attr("data-seqstatus")=="Connection Established"){
 				online2.push($(this).attr("data-seqname"));
 			}else{
-				offline2 += $(this).attr("data-seqname");
+				offline2.push($(this).attr("data-seqname"));
 			}
 		});
 		var diff = new Array();
@@ -51,10 +52,12 @@ $("body").prepend(report);
 		
 		diff = $.grep(online,function (diff) {
 			return $.inArray(diff, online2) < 0;
-			});
+		});
+		
 		fresh = $.grep(online2,function (fresh) {
 			return $.inArray(fresh, online) < 0;
-	});
+		});
+		
 		var rows = 0;
 		table_rows = "";
 		
@@ -82,7 +85,9 @@ $("body").prepend(report);
 	});
 	
 	$("#report").click(function(){
+		started = localStorage.getItem($("#date").val()+"date").split(",");
 		$("#report_table").css("display","");
+		$("#report_data").html("<tr><td>Upgrade Initiated @ "+started+"</td></tr>");
 	});
 	
 	$("#close_report").click(function(){
