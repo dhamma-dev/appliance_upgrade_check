@@ -25,9 +25,9 @@ $("body").prepend(report);
 		
 		$("[id^=seqRow]").each(function(){
 			if ($(this).attr("data-seqstatus")=="Connection Established"){
-				online.push($(this).attr("data-seqname"));
+				online.push($(this).attr("data-seqname")+$(this).attr("data-orgname")+$(this).attr("data-seqguid"));
 			}else{
-				offline.push($(this).attr("data-seqname"));
+				offline.push($(this).attr("data-seqname")+$(this).attr("data-orgname")+$(this).attr("data-seqguid"));
 			}
 		});
 		localStorage.setItem($("#date").val(), online);
@@ -40,9 +40,9 @@ $("body").prepend(report);
 		
 		$("[id^=seqRow]").each(function(){
 			if ($(this).attr("data-seqstatus")=="Connection Established"){
-				online2.push($(this).attr("data-seqname"));
+				online2.push($(this).attr("data-seqname")+$(this).attr("data-orgname")+$(this).attr("data-seqguid"));
 			}else{
-				offline2.push($(this).attr("data-seqname"));
+				offline2.push($(this).attr("data-seqname")+$(this).attr("data-orgname")+$(this).attr("data-seqguid"));
 			}
 		});
 		var diff = new Array();
