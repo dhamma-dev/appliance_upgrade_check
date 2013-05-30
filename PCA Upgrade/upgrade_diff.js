@@ -73,7 +73,7 @@ $('#manageSequencers-content').css("position","relative").append(controls);
 		}
 		
 	
-		$(".output").html("<tr><td>Not Back Online</td><td>New Online</td></tr>"+table_rows);
+		$(".panel .control-panel").html("<tr><td>Not Back Online</td><td>New Online</td></tr>"+table_rows);
 		
 	});
 	 
