@@ -10,7 +10,7 @@ style_controls = "'  position:absolute; top:0px; right:0px;'";
 style_output = "";
 controls = "<div id='controls' style="+style_controls+">Comparing:<span id='label'></span><input id='date' type='text' value='"+date+"' /><button id='start'>start</button><button id='compare'>compare</button></div>";
 output = "<table class='output'><tr><td>Not Back Online</td><td>New Online</td></tr></table>";
-$("#DataTableNoBorder").addClass("output");
+$(".panel .control-panel").addClass("output");
 $('#manageSequencers-content').css("position","relative").append(controls);
 
 	online2 = [];
@@ -73,7 +73,7 @@ $('#manageSequencers-content').css("position","relative").append(controls);
 		}
 		
 	
-		$(".panel .control-panel").html("<tr><td>Not Back Online</td><td>New Online</td></tr>"+table_rows);
+		$(".output").html("<tr><td>Not Back Online</td><td>New Online</td></tr>"+table_rows);
 		
 	});
 	 
