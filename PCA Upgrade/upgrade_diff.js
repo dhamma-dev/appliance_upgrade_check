@@ -12,7 +12,7 @@ style_report = "  'position:fixed; height:100%; width:100%; background-color:whi
 controls = "<div id='controls' style="+style_controls+">Comparing:<span id='label'></span><input id='date' type='text' value='"+date+"' /><button id='start'>start</button><button id='compare'>compare</button><button id='report'>report </button></div>";
 output = "<table class='output'><tr><td>Not Back Online</td><td>New Online</td></tr></table>";
 report = "<div id='report_table' style="+style_report+"><h3 id='close_report'>close</h3><table id='report_data'></table></div>";
-$(".panel .control-panel").addClass("output");
+$("div.panel.control-panel").addClass("output");
 $('#manageSequencers-content').css("position","relative").append(controls);
 $("body").prepend(report);
 
