@@ -9,7 +9,7 @@ var date = day+"/"+month+"/"+year;
 style_controls = "'  position:absolute; top:0px; right:0px;'";
 style_output = "  ' '  ";
 style_report = "  'position:fixed; height:100%; width:100%; background-color:white; z-index:999; display:none;'  ";
-controls = "<div id='controls' style="+style_controls+">Comparing:<span id='label'></span><input id='date' type='text' value='"+date+"' /><button id='start'>start</button><button id='compare'>compare</button><button id='report'>report </button></div>";
+controls = "<div id='controls' style="+style_controls+">Comparing:<span id='label'></span><input id='date' type='text' value='"+date+"' /><button id='start'>start</button><button id='compare'>compare</button></div>";
 output = "<table class='output'><tr><td>Not Back Online</td><td>New Online</td></tr></table>";
 report = "<div id='report_table' style="+style_report+"><h3 id='close_report'>close</h3><table id='report_data'></table></div>";
 $("div.panel.control-panel").addClass("output");
@@ -25,9 +25,9 @@ $("body").prepend(report);
 		
 		$("[id^=seqRow]").each(function(){
 			if ($(this).attr("data-seqstatus")=="Connection Established"){
-				online.push($(this).attr("data-seqname")+$(this).attr("data-orgname")+$(this).attr("data-seqguid"));
+				online.push($(this).attr("data-seqname")+" "+$(this).attr("data-orgname")+" "+$(this).attr("data-seqguid"));
 			}else{
-				offline.push($(this).attr("data-seqname")+$(this).attr("data-orgname")+$(this).attr("data-seqguid"));
+				offline.push($(this).attr("data-seqname")+" "+$(this).attr("data-orgname")+" "+$(this).attr("data-seqguid"));
 			}
 		});
 		localStorage.setItem($("#date").val(), online);
@@ -40,9 +40,9 @@ $("body").prepend(report);
 		
 		$("[id^=seqRow]").each(function(){
 			if ($(this).attr("data-seqstatus")=="Connection Established"){
-				online2.push($(this).attr("data-seqname")+$(this).attr("data-orgname")+$(this).attr("data-seqguid"));
+				online2.push($(this).attr("data-seqname")+" "+$(this).attr("data-orgname")+" "+$(this).attr("data-seqguid"));
 			}else{
-				offline2.push($(this).attr("data-seqname")+$(this).attr("data-orgname")+$(this).attr("data-seqguid"));
+				offline2.push($(this).attr("data-seqname")+" "+$(this).attr("data-orgname")+" "+$(this).attr("data-seqguid"));
 			}
 		});
 		var diff = new Array();
